@@ -1,8 +1,0 @@
-Napisać apkę w postaci backend nodeJS i cache w postaci redis, która:
-
-    - oblicza NWD dla dwóch liczb
-    - wynik trzyma w cache
-    - jak juz jest w cache i pytamy o to samo ponownie to bierze z cache, a jak nie to oblicza na bieżąco
-
-<!> Image aplikacji backendowej ---> docker hub
-<!> Kod aplikacji (całość, razem z Dockerfile, docker-compose.yml) do GitHub
