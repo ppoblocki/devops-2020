@@ -1,5 +1,6 @@
 # devops-2020
-DevOps 2020
+### Patryk Pobłocki
+#### Technologie DevOps
 
 1. lab1 (Hello World)
 2. lab2 (NWD + Redis)
