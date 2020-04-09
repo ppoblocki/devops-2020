@@ -1,6 +1,9 @@
 # devops-2020
 ### Patryk Pobłocki
-#### Technologie DevOps
+
+#### :whale: (https://hub.docker.com/u/ppoblocki) :whale:
+
+#### Technologie DevOps - laboratorium
 
 1. lab1 (Hello World)
 2. lab2 (NWD + Redis)
