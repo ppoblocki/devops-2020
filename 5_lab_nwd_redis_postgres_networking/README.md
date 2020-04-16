@@ -10,3 +10,6 @@ Gdy serwer działa np.
 
 curl localhost:8080/4/2
 
+Jak działa program:
+Wynik (jeżeli nowy) trafia do redisa oraz postgresa. Jeżeli wynik już jest (np. ponownie uruchamiamy dla tej samej pary liczb) to bierzemy go z redisa/cache.
+
