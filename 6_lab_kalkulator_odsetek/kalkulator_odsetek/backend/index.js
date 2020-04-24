@@ -1,19 +1,18 @@
 const url = require('url');
-
 const keys = require('./keys');
-
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
 app.use(bodyParser.json());
 
+// REDIS SETUP
 const redis = require('redis');
 const redisClient = redis.createClient({
     host: keys.redisHost,
     port: keys.redisPort
 });
 
+// PostgreSQL SETUP
 const { Pool } = require('pg');
 const pgClient = new Pool({
     user: keys.pgUser,
@@ -25,66 +24,57 @@ const pgClient = new Pool({
 
 pgClient.on('error', () => console.log('No connection to PostgreSQL Database!'));
 
-pgClient.query('CREATE TABLE IF NOT EXISTS result(number INT)').catch(err => console.log(err));
+pgClient.query('CREATE TABLE IF NOT EXISTS wyniki(' +
+                            'kapital FLOAT, ' +
+                            'procent FLOAT, ' +
+                            'miesiace INT, ' +
+                            'odsetki FLOAT)').catch(err => console.log(err));
 
-var nwd_func = function(x, y) {
-
-    x = Math.abs(x);
-    y = Math.abs(y);
-
-    while(y) {
-        var t = y;
-        y = x % y;
-        x = t;
-    }
-    return x;
-};
-
-app.get('/:n1/:n2', (req, resp) => {
-
-    redisClient.get(req.params.n1 + "," + req.params.n2, (err, result) =>{
-
-        if (result)
-        {
-            console.log("result from redis cache\n");
-            console.log("no need to add result to postgres (result already exists)\n");
-            resp.send("Wynik : " + result);
-        }
-        else
-        {
-            var a = parseInt(req.params["n1"]);
-            var b = parseInt(req.params["n2"]);
-            var c = nwd_func(a,b);
-            console.log("calculated result");
-            pgClient.query('INSERT INTO result (number) VALUES (' + c + ");").catch(err => console.log(err));
-            console.log("inserting into postgres...");
-            resp.send("Wynik : " + c);
-            redisClient.set(a+","+b, c);
-        }
-    });
-});
-
+// Kalkulator odsetek lokat bankowych
 app.get('/:k/:o/:m', (req, resp) => {
 
     // Parametry
-    var kapital = req.params.k;
-    var oprocentowanie = req.params.o;
+    var kapital = req.params.k.replace(",", ".");
+    var oprocentowanie = (req.params.o).replace(",", ".");
     var miesiace = req.params.m;
 
-    var odsetki = 0.0;
+    var redis_key = kapital+"-"+oprocentowanie+"-"+miesiace;
 
-    // Logika
-    odsetki = (((oprocentowanie / 1200) * miesiace) * kapital) * 0.81;
+    redisClient.get(redis_key, (err, result) => {
+        if (result) // exists in Redis
+        {
+            console.log("[REDIS] Getting result from cache...");
+            resp.send(result.toString().replace(".", ","));
+        }
+        else
+            {
+                var odsetki = 0.0;
 
-    // Response
-    resp.send(odsetki.toString());
+                // Logika
+                odsetki = ((((oprocentowanie / 1200) * miesiace) * kapital) * 0.81).toFixed(2);
+
+                // PostgreSQL
+                var query_string = "INSERT INTO wyniki (kapital, procent, miesiace, odsetki) " +
+                    "VALUES ('" + kapital + "', '" + oprocentowanie + "', '" + miesiace + "', '" + odsetki +"');";
+                console.log("[PostgreSQL] Executing query...");
+                console.log("[PostgreSQL] " + query_string);
+                pgClient.query(query_string).catch(err => console.log(err));
+
+                // Redis
+                console.log("[REDIS] Inserting key-value...");
+                console.log("[REDIS]" + redis_key + " ==> " + odsetki);
+                redisClient.set(redis_key, odsetki);
+
+                // Response
+                resp.send(odsetki.toString().replace(".", ","));
+            }
+    });
 });
 
-
 app.get('/', (req, resp) => {
-    resp.send('Hello World!!!');
+    resp.send('Hello from Kalkulator odsetek lokat API :D');
 });
 
 app.listen(4000, err => {
-    console.log('Server is listening on port 8080');
+    console.log('Server is listening on port 4000');
 });

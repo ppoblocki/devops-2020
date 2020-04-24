@@ -13,7 +13,7 @@ function App() {
      const arg3 = document.getElementById("m3").value;
 
      // Dodać walidator
-     const formNotEmpty = !(arg1 == "" || arg2 == "" || arg3 == "");
+     const formNotEmpty = !(arg1 === "" || arg2 === "" || arg3 === "");
      if (formNotEmpty)
      {
          const request = "/api/" + arg1 + '/' + arg2 + '/' + arg3;
