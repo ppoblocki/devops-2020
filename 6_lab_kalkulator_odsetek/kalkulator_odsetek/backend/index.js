@@ -64,6 +64,22 @@ app.get('/:n1/:n2', (req, resp) => {
     });
 });
 
+app.get('/:k/:o/:m', (req, resp) => {
+
+    // Parametry
+    var kapital = req.params.k;
+    var oprocentowanie = req.params.o;
+    var miesiace = req.params.m;
+
+    var odsetki = 0.0;
+
+    // Logika
+    odsetki = (((oprocentowanie / 1200) * miesiace) * kapital) * 0.81;
+
+    // Response
+    resp.send(odsetki.toString());
+});
+
 
 app.get('/', (req, resp) => {
     resp.send('Hello World!!!');
