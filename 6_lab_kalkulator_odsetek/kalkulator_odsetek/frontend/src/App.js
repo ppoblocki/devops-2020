@@ -10,12 +10,24 @@ function App() {
      // Pobranie argumentow
      const arg1 = document.getElementById("k1").value;
      const arg2 = document.getElementById("o2").value;
-     // Request
-     const helloResp = await axios.get('/api/' + arg1 + '/' + arg2);
-     // Drukowanie wyniku
-     console.log(helloResp.data);
-     ReactDOM.render(<p id={"wynik2"}></p>, document.getElementById("wynik"));
-     document.getElementById("wynik2").innerHTML = helloResp.data;
+     const arg3 = document.getElementById("m3").value;
+
+     // Dodać walidator
+     const formNotEmpty = !(arg1 == "" || arg2 == "" || arg3 == "");
+     if (formNotEmpty)
+     {
+         const request = "/api/" + arg1 + '/' + arg2 + '/' + arg3;
+         // Request
+         const result = await axios.get(request);
+         // Drukowanie wyniku
+         ReactDOM.render(<p id={"wynik2"}></p>, document.getElementById("wynik"));
+         document.getElementById("wynik2").innerHTML = "Twoje odsetki: " + result.data + " zł";
+     }
+     else
+         {
+             alert("Proszę uzupełnić wszystkie pola.");
+         }
+
    };
 
   return (
@@ -37,21 +49,17 @@ function App() {
               </label>
               <br />
               <label>
-                  <input id="o2" type="text" name="o" placeholder={"Jakie oprocentowanie?"}/>
+                  <input id="o2" type="text" name="o" placeholder={"Jakie oprocentowanie? [%]"}/>
               </label>
               <br />
               <label>
-                  <input id="d3" type="text" name="d" placeholder={"Na ile dni?"}/>
+                  <input id="m3" type="text" name="m" placeholder={"Na ile miesięcy?"}/>
               </label>
               <br />
           </form>
           <button onClick={handleClick}>Oblicz</button>
-          <div id={"wynik"}>
-
-          </div>
-
-
-      </header>
+          <div id={"wynik"}></div>
+        </header>
         <footer className={"App-footer"}>
             © Patryk Pobłocki | <a href="www.github.com/ppoblocki">www.github.com/ppoblocki</a>
         </footer>
