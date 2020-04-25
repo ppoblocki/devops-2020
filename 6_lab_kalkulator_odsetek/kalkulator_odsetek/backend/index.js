@@ -28,7 +28,7 @@ pgClient.query('CREATE TABLE IF NOT EXISTS wyniki(' +
                             'kapital FLOAT, ' +
                             'procent FLOAT, ' +
                             'miesiace INT, ' +
-                            'odsetki FLOAT)').catch(err => console.log(err));
+                            'odsetki FLOAT);').catch(err => console.log(err));
 
 // Kalkulator odsetek lokat bankowych
 app.get('/:k/:o/:m', (req, resp) => {
