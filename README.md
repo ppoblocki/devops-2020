@@ -13,5 +13,5 @@
 5. lab5 (Networking: NWD + Redis + PostgreSQL)
 6. lab6 (Kalkulator odsetek lokat bankowych) ✅ Ready! ✅
 
-##### Kubernetes 🎡 :ferris_wheel:
+##### Kubernetes 🎡
 1. lab1 (NodeJS random number)
