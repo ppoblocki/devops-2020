@@ -15,3 +15,4 @@
 
 ##### Kubernetes 🎡
 1. lab1 (NodeJS random number)
+2. lab2 (My Cluster)
