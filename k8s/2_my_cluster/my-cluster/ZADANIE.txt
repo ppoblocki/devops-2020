@@ -1,0 +1,11 @@
+1. Fragment clustra
+
+- Redis (replicas 2)
+
+2. Service typu ClusterIP (Redis - nazwa np. cache-service)
+
+2.1 dnsutils, polecenie nslookup (opisane w dok.) "Debugging DNS Resolution"
+
+3. - Backend (replicas 3) --> do punktu 1.
+
+4. Service typu NodePort - dostęp do clustra (backendu)
