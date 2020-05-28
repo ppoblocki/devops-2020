@@ -14,6 +14,7 @@
 6. lab6 (Kalkulator odsetek lokat bankowych) ✅ Ready! ✅
 
 ##### Kubernetes 🎡
-1. lab1 (NodeJS random number)
-2. lab2 (My Cluster | ClusterIP)
-3. lab3 (My Cluster #2 | ConfigMap)
+1. lab1 (NodeJS random number) 07.05
+2. lab2 (My Cluster | ClusterIP) 14.05
+3. lab3 (My Cluster #2 | ConfigMap) 21.05
+4. lab4 (My Cluster #3 | Volumes) 28.05
