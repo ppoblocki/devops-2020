@@ -15,4 +15,5 @@
 
 ##### Kubernetes 🎡
 1. lab1 (NodeJS random number)
-2. lab2 (My Cluster)
+2. lab2 (My Cluster | ClusterIP)
+3. lab3 (My Cluster #2 | ConfigMap)
